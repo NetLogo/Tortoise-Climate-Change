@@ -1929,14 +1929,14 @@ Prims = {
     return _results;
   },
   clearOutput: function() {
-    var outputArea = document.getElementById('output')
+    var outputArea = document.getElementById('output');
     while(outputArea.childNodes.length > 0) {
-      outputArea.removeChild(outputArea.childNodes[0])
+      outputArea.removeChild(outputArea.childNodes[0]);
     }
   },
   outputPrint: function(x) {
-    var outputArea = document.getElementById('output')
-    outputArea.appendChild(document.createTextNode(x + '\n'))
+    var outputArea = document.getElementById('output');
+    outputArea.appendChild(document.createTextNode(x + '\n'));
   },
   patchSet: function() {
     var inputs, recurse, result;
