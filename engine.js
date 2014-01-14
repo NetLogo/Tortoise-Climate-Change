@@ -60,7 +60,15 @@ collectUpdates = function() {
       patches: {}
     }
   ] : Updates;
-  Updates = [];
+  Updates = [
+    {
+      turtles: {},
+      patches: {},
+      links: {},
+      observer: {},
+      world: {}
+    }
+  ];
   return result;
 };
 
@@ -72,15 +80,14 @@ died = function(agent) {
     links: {}
   };
   if (agent instanceof Turtle) {
-    update.turtles[agent.id] = {
+    Updates[0].turtles[agent.id] = {
       WHO: -1
     };
   } else if (agent instanceof Link) {
-    update.links[agent.id] = {
+    Updates[0].links[agent.id] = {
       WHO: -1
     };
   }
-  Updates.push(update);
 };
 
 noop = function() {
@@ -89,56 +96,51 @@ noop = function() {
 };
 
 updated = function() {
-  var change, obj, oneUpdate, update, v, vars, _i, _len;
+  var agentUpdate, agents, obj, update, v, vars, _i, _len;
   obj = arguments[0], vars = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
-  change = {};
+  update = Updates[0];
+  if (obj instanceof Turtle) {
+    agents = update.turtles;
+  } else if (obj instanceof Patch) {
+    agents = update.patches;
+  } else if (obj instanceof Link) {
+    agents = update.links;
+  }
+  agentUpdate = agents[obj.id] || {};
+  if (agentUpdate['WHO'] < 0) {
+    delete agentUpdate['WHO'];
+  }
   for (_i = 0, _len = vars.length; _i < _len; _i++) {
     v = vars[_i];
     if (v === "plabelcolor") {
-      change["PLABEL-COLOR"] = obj[v];
+      agentUpdate["PLABEL-COLOR"] = obj[v];
     } else if (v === "breed") {
-      change["BREED"] = obj[v].name;
+      agentUpdate["BREED"] = obj[v].name;
     } else if (v === "labelcolor") {
-      change["LABEL-COLOR"] = obj[v];
+      agentUpdate["LABEL-COLOR"] = obj[v];
     } else if (v === "pensize") {
-      change["PEN-SIZE"] = obj[v];
+      agentUpdate["PEN-SIZE"] = obj[v];
     } else if (v === "penmode") {
-      change["PEN-MODE"] = obj[v];
+      agentUpdate["PEN-MODE"] = obj[v];
     } else if (v === "hidden") {
-      change["HIDDEN?"] = obj[v];
+      agentUpdate["HIDDEN?"] = obj[v];
     } else if (v === "tiemode") {
-      change["TIE-MODE"] = obj[v];
+      agentUpdate["TIE-MODE"] = obj[v];
     } else if (v === "id" && !(obj instanceof Link)) {
-      change["WHO"] = obj[v];
+      agentUpdate["WHO"] = obj[v];
     } else if (v === "end1") {
-      change["END1"] = obj[v].id;
+      agentUpdate["END1"] = obj[v].id;
     } else if (v === "end2") {
-      change["END2"] = obj[v].id;
+      agentUpdate["END2"] = obj[v].id;
     } else if (v === "xcor") {
-      change["XCOR"] = obj.xcor();
+      agentUpdate["XCOR"] = obj.xcor();
     } else if (v === "ycor") {
-      change["YCOR"] = obj.ycor();
+      agentUpdate["YCOR"] = obj.ycor();
     } else {
-      change[v.toUpperCase()] = obj[v];
+      agentUpdate[v.toUpperCase()] = obj[v];
     }
   }
-  oneUpdate = {};
-  oneUpdate[obj.id] = change;
-  update = {};
-  if (obj instanceof Turtle) {
-    update.turtles = oneUpdate;
-    update.links = {};
-    update.patches = {};
-  } else if (obj instanceof Patch) {
-    update.turtles = {};
-    update.links = {};
-    update.patches = oneUpdate;
-  } else if (obj instanceof Link) {
-    update.turtles = {};
-    update.patches = {};
-    update.links = oneUpdate;
-  }
-  Updates.push(update);
+  agents[obj.id] = agentUpdate;
 };
 
 Turtle = (function() {
