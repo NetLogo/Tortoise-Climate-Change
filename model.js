@@ -119,8 +119,8 @@ function clearData() {
   if (!(Globals.getGlobal(18))) {
     stopModel();
     if (!(Globals.getGlobal(22))) {
-      clearCODAPData()
-      graph.resetPoints();
+      clearCODAPData();
+      clearPlots();
       clear();
     }
     if (Globals.getGlobal(22)) {
@@ -145,8 +145,8 @@ function clearData() {
         if (Prims.equality(ans1, a4)) {
           Globals.setGlobal(16, noop("Why do you want to remove the data?"));
         }*/
-        clearCODAPData()
-        graph.resetPoints();
+        clearCODAPData();
+        clearPlots();
         clear();
       }
     }

@@ -1212,7 +1212,7 @@ World = (function() {
     _nextLinkId = 0;
     this.patchesAllBlack(true);
     this.clearTicks();
-    graph.resetPoints();
+    clearPlots();
   };
 
   World.prototype.createTurtle = function(t) {

@@ -11,6 +11,11 @@ function updatePlots() {
   graph.addSamples([Prims.precision(Globals.getGlobal(6), 1), Prims.precision(Globals.getGlobal(11), 1)]);
 }
 
+function clearPlots() {
+  graph.resetPoints();
+  graph.update();
+}
+
 function record() {
   if(window.parent && window.parent.DG) {
     parentCase = doCommand('openCase', {
