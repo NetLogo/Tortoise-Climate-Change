@@ -1,7 +1,11 @@
 var session     = new SessionLite(document.getElementsByClassName('view-container')[0])
 var runner      = -1;
 var tickCounter = document.getElementById('tick-counter');
-var lastUpdate  = 0;
+var MAX_SPEED   = 15;
+var MIN_FPS      = 15;
+var MS_PER_FRAME = 1000 / MIN_FPS;
+var MAX_UPS      = 1000;
+
 
 // If the HTML was saved in the non-default state, correct it.
 window.addEventListener('load', initPage);
@@ -11,24 +15,20 @@ function updateTickCounter() {
 }
 
 function goForever() {
+  var startTime     = new Date().getTime(),
+      ups           = Math.pow(MAX_UPS, document.getElementById('speed-slider').value),
+      maxNumUpdates = ups * MS_PER_FRAME / 1000;
 
-  var speed      = Math.exp(document.getElementById('speed-slider').value);
-  var delta      = Math.min(new Date().getTime() - lastUpdate, 30);
-  var numUpdates = speed * delta / 1000 + 1;
-
-  for (var i=0; i < numUpdates; i++) {
+  for (var i=0; i < maxNumUpdates && new Date().getTime() - startTime < MS_PER_FRAME; i++) {
     on_off();
     actOnChanges();
   }
-
   updateTickCounter();
-  session.update(collectUpdates());
   updateYearMonitor();
   updateTempMonitor();
   updateAvgTempMonitor();
-
-  lastUpdate = new Date().getTime();
-  runner     = setTimeout(goForever, 1000 / speed);
+  session.update(collectUpdates());
+  runner = setTimeout(goForever, 1000 / ups - (new Date().getTime() - startTime));
 }
 
 var yearMonitor = $('#year-monitor');
@@ -62,7 +62,7 @@ function updateAvgTempMonitor() {
 }
 
 function stop() {
-  clearTimeout(runner);
+  cancelTimeout(runner);
   runner = -1;
 }
 
