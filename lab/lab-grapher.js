@@ -2064,7 +2064,7 @@ module.exports = function Graph(idOrElement, options, message, tabindex) {
         } else {
           // else we are plotting older complete datasets
           // plot all ... or until one point past xAxisEnd
-          setStrokeColor(0, true);
+          setStrokeColor(i, true);
           gctx.lineWidth = lineWidth/2;
           // temporary hack ...
           var previousPx = 0;
@@ -2609,6 +2609,7 @@ module.exports = function Graph(idOrElement, options, message, tabindex) {
 
   return api;
 };
+
 },{"./axis":1}],3:[function(require,module,exports){
 module.exports = require('./lib/graph');
 
