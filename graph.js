@@ -55,7 +55,7 @@ graph = LabGrapher('#labgraph', {
   title: 'Global Temperature',
   xlabel: 'Year',
   ylabel: 'Temperature',
-  xmax: 2114,
+  xmax: 2124,
   xmin: 2014,
   dataSampleStart: 2014,
   xTickCount: 5,
