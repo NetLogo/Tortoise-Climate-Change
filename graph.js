@@ -12,8 +12,24 @@ function updatePlots() {
 }
 
 function clearPlots() {
-  graph.resetPoints();
-  graph.update();
+  graph.reset('#labgraph', {
+    title: 'Global Temperature',
+    xlabel: 'Year',
+    ylabel: 'Temperature',
+    xmax: 2124,
+    xmin: 2014,
+    dataSampleStart: 2014,
+    xTickCount: 5,
+    ymax: 30,
+    ymin: 10,
+    lineWidth: 4.0,
+
+    dataType: 'samples',
+    dataSamples: [[],[]],
+
+    xFormatter: '.',
+    yFormatter: '.'
+  });
 }
 
 function record() {
@@ -51,24 +67,8 @@ function clearCODAPData() {
 }
 
 var yearlyData = [];
-graph = LabGrapher('#labgraph', {
-  title: 'Global Temperature',
-  xlabel: 'Year',
-  ylabel: 'Temperature',
-  xmax: 2124,
-  xmin: 2014,
-  dataSampleStart: 2014,
-  xTickCount: 5,
-  ymax: 30,
-  ymin: 10,
-  lineWidth: 4.0,
-
-  dataType: 'samples',
-  dataSamples: [[],[]],
-
-  xFormatter: '.',
-  yFormatter: '.'
-});
+graph = LabGrapher('#labgraph');
+clearPlots();
 
 graph.resize(286, 325);
 
