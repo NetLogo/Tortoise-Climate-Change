@@ -61,6 +61,7 @@ graph = LabGrapher('#labgraph', {
   xTickCount: 5,
   ymax: 30,
   ymin: 10,
+  lineWidth: 4.0,
 
   dataType: 'samples',
   dataSamples: [[],[]],
