@@ -112,32 +112,45 @@ updated = function() {
   }
   for (_i = 0, _len = vars.length; _i < _len; _i++) {
     v = vars[_i];
-    if (v === "plabelcolor") {
-      agentUpdate["PLABEL-COLOR"] = obj[v];
-    } else if (v === "breed") {
-      agentUpdate["BREED"] = obj[v].name;
-    } else if (v === "labelcolor") {
-      agentUpdate["LABEL-COLOR"] = obj[v];
-    } else if (v === "pensize") {
-      agentUpdate["PEN-SIZE"] = obj[v];
-    } else if (v === "penmode") {
-      agentUpdate["PEN-MODE"] = obj[v];
-    } else if (v === "hidden") {
-      agentUpdate["HIDDEN?"] = obj[v];
-    } else if (v === "tiemode") {
-      agentUpdate["TIE-MODE"] = obj[v];
-    } else if (v === "id" && !(obj instanceof Link)) {
-      agentUpdate["WHO"] = obj[v];
-    } else if (v === "end1") {
-      agentUpdate["END1"] = obj[v].id;
-    } else if (v === "end2") {
-      agentUpdate["END2"] = obj[v].id;
-    } else if (v === "xcor") {
-      agentUpdate["XCOR"] = obj.xcor();
-    } else if (v === "ycor") {
-      agentUpdate["YCOR"] = obj.ycor();
-    } else {
-      agentUpdate[v.toUpperCase()] = obj[v];
+    switch (v) {
+      case "xcor":
+        agentUpdate["XCOR"] = obj.xcor();
+        break;
+      case "ycor":
+        agentUpdate["YCOR"] = obj.ycor();
+        break;
+      case "id":
+        agentUpdate[obj instanceof Link ? "ID" : "WHO"] = obj[v];
+        break;
+      case "plabelcolor":
+        agentUpdate["PLABEL-COLOR"] = obj[v];
+        break;
+      case "breed":
+        agentUpdate["BREED"] = obj[v].name;
+        break;
+      case "labelcolor":
+        agentUpdate["LABEL-COLOR"] = obj[v];
+        break;
+      case "pensize":
+        agentUpdate["PEN-SIZE"] = obj[v];
+        break;
+      case "penmode":
+        agentUpdate["PEN-MODE"] = obj[v];
+        break;
+      case "hidden":
+        agentUpdate["HIDDEN?"] = obj[v];
+        break;
+      case "tiemode":
+        agentUpdate["TIE-MODE"] = obj[v];
+        break;
+      case "end1":
+        agentUpdate["END1"] = obj[v].id;
+        break;
+      case "end2":
+        agentUpdate["END2"] = obj[v].id;
+        break;
+      default:
+        agentUpdate[v.toUpperCase()] = obj[v];
     }
   }
   agents[obj.id] = agentUpdate;
@@ -454,30 +467,26 @@ Turtle = (function() {
 
   Turtle.prototype.fd = function(amount) {
     if (amount > 0) {
-      while (amount >= 1 && this.canMove(1)) {
-        this.jump(1);
+      while (amount >= 1 && this.jump(1)) {
         amount -= 1;
       }
-      if (amount > 0 && this.canMove(amount)) {
-        this.jump(amount);
-      }
+      this.jump(amount);
     } else if (amount < 0) {
-      while (amount <= -1 && this.canMove(-1)) {
-        this.jump(-1);
+      while (amount <= -1 && this.jump(-1)) {
         amount += 1;
       }
-      if (amount < 0 && this.canMove(amount)) {
-        this.jump(amount);
-      }
+      this.jump(amount);
     }
   };
 
   Turtle.prototype.jump = function(amount) {
     if (this.canMove(amount)) {
-      this.setXcor(world.topology().wrapX(this.xcor() + amount * Trig.sin(this.heading)));
-      this.setYcor(world.topology().wrapY(this.ycor() + amount * Trig.cos(this.heading)));
+      this.setXcor(this.xcor() + amount * Trig.sin(this.heading));
+      this.setYcor(this.ycor() + amount * Trig.cos(this.heading));
       updated(this, "xcor", "ycor");
+      return true;
     }
+    return false;
   };
 
   Turtle.prototype.right = function(amount) {
