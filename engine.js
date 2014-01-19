@@ -190,7 +190,11 @@ Turtle = (function() {
 
   Turtle.prototype.updateBreed = function(breed) {
     var x, _i, _len, _ref2, _results;
+    if (this.breed) {
+      this.breed.remove(this);
+    }
     this.breed = breed;
+    breed.add(this);
     this.shape = this.breed.shape();
     if (this.breed !== Breeds.get("TURTLES")) {
       _ref2 = this.breed.vars;
@@ -513,6 +517,7 @@ Turtle = (function() {
 
   Turtle.prototype.die = function() {
     var error, l, _i, _len, _ref2;
+    this.breed.remove(this);
     if (this.id !== -1) {
       world.removeTurtle(this.id);
       died(this);
@@ -692,9 +697,7 @@ Patch = (function() {
   };
 
   Patch.prototype.leave = function(t) {
-    return this.turtles = this.turtles.filter(function(o) {
-      return o.id !== t.id;
-    });
+    return this.turtles.splice(this.turtles.indexOf(t, 0), 1);
   };
 
   Patch.prototype.arrive = function(t) {
@@ -828,6 +831,7 @@ Link = (function() {
     this.end1 = end1;
     this.end2 = end2;
     this.breed = Breeds.get("LINKS");
+    this.breed.add(this);
     this.end1._links.push(this);
     this.end2._links.push(this);
     this.updateEndRelatedVars();
@@ -851,6 +855,7 @@ Link = (function() {
   };
 
   Link.prototype.die = function() {
+    this.breed.remove(this);
     if (this.id !== -1) {
       this.end1._removeLink(this);
       this.end2._removeLink(this);
@@ -899,13 +904,15 @@ Link = (function() {
 })();
 
 World = (function() {
-  var _links, _nextLinkId, _nextTurtleId, _patches, _patchesAllBlack, _ticks, _timer, _topology, _turtles;
+  var _links, _nextLinkId, _nextTurtleId, _patches, _patchesAllBlack, _ticks, _timer, _topology, _turtles, _turtlesById;
 
   _nextLinkId = 0;
 
   _nextTurtleId = 0;
 
   _turtles = [];
+
+  _turtlesById = {};
 
   _patches = [];
 
@@ -999,9 +1006,7 @@ World = (function() {
   World.prototype.turtlesOfBreed = function(breedName) {
     var breed;
     breed = Breeds.get(breedName);
-    return new Agents(_turtles.filter(function(t) {
-      return t.breed === breed;
-    }), breed);
+    return new Agents(breed.members, breed);
   };
 
   World.prototype.patches = function() {
@@ -1035,10 +1040,10 @@ World = (function() {
   };
 
   World.prototype.resize = function(minPxcor, maxPxcor, minPycor, maxPycor) {
-    var error, t, _i, _len, _ref2;
     if (minPxcor > 0 || maxPxcor < 0 || minPycor > 0 || maxPycor < 0) {
       throw new NetLogoException("You must include the point (0, 0) in the world.");
     }
+    this.clearAll();
     this.minPxcor = minPxcor;
     this.maxPxcor = maxPxcor;
     this.minPycor = minPycor;
@@ -1051,18 +1056,6 @@ World = (function() {
       _topology = new HorzCylinder(this.minPxcor, this.maxPxcor, this.minPycor, this.maxPycor);
     } else {
       _topology = new Box(this.minPxcor, this.maxPxcor, this.minPycor, this.maxPycor);
-    }
-    _ref2 = this.turtles().items;
-    for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-      t = _ref2[_i];
-      try {
-        t.die();
-      } catch (_error) {
-        error = _error;
-        if (!(error instanceof DeathInterrupt)) {
-          throw error;
-        }
-      }
     }
     this.createPatches();
     return Updates.push({
@@ -1136,26 +1129,16 @@ World = (function() {
   };
 
   World.prototype.getTurtle = function(id) {
-    var filteredTurtles;
-    filteredTurtles = this.turtles().items.filter(function(t) {
-      return t.id === id;
-    });
-    if (filteredTurtles.length === 0) {
-      return Nobody;
-    } else {
-      return filteredTurtles[0];
-    }
+    return _turtlesById[id] || Nobody;
   };
 
   World.prototype.getTurtleOfBreed = function(breedName, id) {
-    var filteredTurtles;
-    filteredTurtles = this.turtlesOfBreed(breedName).items.filter(function(t) {
-      return t.id === id;
-    });
-    if (filteredTurtles.length === 0) {
-      return Nobody;
+    var turtle;
+    turtle = this.getTurtle(id);
+    if (turtle.breed.name === breedName) {
+      return turtle;
     } else {
-      return filteredTurtles[0];
+      return Nobody;
     }
   };
 
@@ -1176,9 +1159,10 @@ World = (function() {
   };
 
   World.prototype.removeTurtle = function(id) {
-    _turtles = this.turtles().items.filter(function(t) {
-      return t.id !== id;
-    });
+    var turtle;
+    turtle = _turtlesById[id];
+    _turtles.splice(_turtles.indexOf(turtle), 1);
+    return delete _turtlesById[id];
   };
 
   World.prototype.patchesAllBlack = function(val) {
@@ -1195,7 +1179,7 @@ World = (function() {
   World.prototype.clearAll = function() {
     var error, t, _i, _len, _ref2;
     Globals.clear(this.interfaceGlobalCount);
-    _ref2 = this.turtles().items;
+    _ref2 = this.turtles().items.slice(0);
     for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
       t = _ref2[_i];
       try {
@@ -1212,13 +1196,13 @@ World = (function() {
     _nextLinkId = 0;
     this.patchesAllBlack(true);
     this.clearTicks();
-    clearPlots();
   };
 
   World.prototype.createTurtle = function(t) {
     t.id = _nextTurtleId++;
     updated.apply(null, [t].concat(__slice.call(turtleBuiltins)));
     _turtles.push(t);
+    _turtlesById[t.id] = t;
     return t;
   };
 
@@ -1681,9 +1665,9 @@ Agents = (function() {
 Iterator = (function() {
   function Iterator(agents) {
     this.agents = agents;
+    this.agents = this.agents.slice(0);
+    this.i = 0;
   }
-
-  Iterator.prototype.i = 0;
 
   Iterator.prototype.hasNext = function() {
     return this.i < this.agents.length;
@@ -1930,15 +1914,8 @@ Prims = {
     }
     return _results;
   },
-  clearOutput: function() {
-    var outputArea = document.getElementById('output');
-    while(outputArea.childNodes.length > 0) {
-      outputArea.removeChild(outputArea.childNodes[0]);
-    }
-  },
   outputPrint: function(x) {
-    var outputArea = document.getElementById('output');
-    outputArea.appendChild(document.createTextNode(x + '\n'));
+    return println(Dump(x));
   },
   patchSet: function() {
     var inputs, recurse, result;
@@ -2074,10 +2051,11 @@ Trig = {
 };
 
 Breed = (function() {
-  function Breed(name, singular, _shape) {
+  function Breed(name, singular, _shape, members) {
     this.name = name;
     this.singular = singular;
     this._shape = _shape != null ? _shape : false;
+    this.members = members != null ? members : [];
   }
 
   Breed.prototype.shape = function() {
@@ -2090,19 +2068,36 @@ Breed = (function() {
 
   Breed.prototype.vars = [];
 
+  Breed.prototype.add = function(agent) {
+    var a, i, _i, _len, _ref2;
+    _ref2 = this.members;
+    for (i = _i = 0, _len = _ref2.length; _i < _len; i = ++_i) {
+      a = _ref2[i];
+      if (a.id > agent.id) {
+        break;
+      }
+    }
+    return this.members.splice(i, 0, agent);
+  };
+
+  Breed.prototype.remove = function(agent) {
+    return this.members.splice(this.members.indexOf(agent), 1);
+  };
+
   return Breed;
 
 })();
 
 Breeds = {
-  breeds: [new Breed("TURTLES", "turtle", "default"), new Breed("LINKS", "link", "default")],
+  breeds: {
+    TURTLES: new Breed("TURTLES", "turtle", "default"),
+    LINKS: new Breed("LINKS", "link", "default")
+  },
   add: function(name, singular) {
-    return this.breeds.push(new Breed(name, singular));
+    return this.breeds[name] = new Breed(name, singular);
   },
   get: function(name) {
-    return (this.breeds.filter(function(b) {
-      return b.name === name;
-    }))[0];
+    return this.breeds[name];
   },
   setDefaultShape: function(agents, shape) {
     return agents.breed._shape = shape.toLowerCase();
@@ -3132,3 +3127,4 @@ Layouts = {
     return _results;
   }
 };
+
