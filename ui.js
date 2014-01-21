@@ -1,6 +1,5 @@
 var session     = new SessionLite(document.getElementsByClassName('view-container')[0])
 var runner      = -1;
-var tickCounter = document.getElementById('tick-counter');
 var MAX_SPEED   = 15;
 var MIN_FPS      = 15;
 var MS_PER_FRAME = 1000 / MIN_FPS;
@@ -9,10 +8,6 @@ var MAX_UPS      = 1000;
 
 // If the HTML was saved in the non-default state, correct it.
 window.addEventListener('load', initPage);
-
-function updateTickCounter() {
-  tickCounter.textContent = typeof world.ticks() === 'number' ? world.ticks() : '';
-}
 
 function goForever() {
   var startTime     = new Date().getTime(),
@@ -23,7 +18,6 @@ function goForever() {
     on_off();
     actOnChanges();
   }
-  updateTickCounter();
   updateYearMonitor();
   updateTempMonitor();
   updateAvgTempMonitor();
@@ -106,7 +100,6 @@ function updateCloudsSlider() {
 }
 
 function initPage() {
-  tickCounter.textContent = '0';
   document.getElementById('go-button').value = 'Turn On'
 }
 
