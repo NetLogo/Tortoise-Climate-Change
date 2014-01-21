@@ -210,7 +210,7 @@ to act-on-changes   ; detects changes in the sliders and selector
     set-CO2 round (.1 * CO2-level) ; there are .1 CO2 molecules for each ppm 
     clear-output
     output-print "The CO2 level in 2013 was 400 ppm (ppm = parts per million.)"
-    output-print "It could reach 1000 ppm by 2014"
+    output-print "It could reach 1000 ppm by 2114"
     set old-CO2-level CO2-level]
     
     
@@ -525,15 +525,15 @@ to setup-data-export
   let representational-inputs [ ]  ; student analysis of run
   let computational-outputs [      ; calculated
     [ "Year" "" 2014 2114 true ]
-    [ "Final Yearly Temp." "°C" -100 200 true ]
-    [ "Final 10-year Avg. Temp." "°C" -100 200 true]]
+    [ "Final Yearly Temp." "ï¿½C" -100 200 true ]
+    [ "Final 10-year Avg. Temp." "ï¿½C" -100 200 true]]
   let student-inputs [ ]           ; other student actions during analysis
   let model-information [          ; 
     [ "ramp" "Climate-post-test.v14.nlogo" "Dec 2013" ] ]
   let time-series-data [
     [ "Year" "" 2014 2114 true ]
-    [ "Yearly Temp." "°C" -100 200 true ]
-    [ "10-year Avg. Temp." "°C" -100 200 true]
+    [ "Yearly Temp." "ï¿½C" -100 200 true ]
+    [ "10-year Avg. Temp." "ï¿½C" -100 200 true]
   ]
   let setup (list computational-inputs representational-inputs computational-outputs student-inputs model-information time-series-data)
 end
@@ -704,7 +704,7 @@ CO2-level
 CO2-level
 0
 1000
-400
+620
 10
 1
 ppm
@@ -1180,7 +1180,7 @@ Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 
 @#$#@#$#@
-NetLogo 5.0.4
+NetLogo 5.0.5-RC1
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
