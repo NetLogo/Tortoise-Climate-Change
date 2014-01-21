@@ -177,7 +177,7 @@ function actOnChanges() {
     setCo2(StrictMath.round((0.1 * Globals.getGlobal(2))));
     Prims.clearOutput();
     Prims.outputPrint("The CO2 level in 2013 was 400 ppm (ppm = parts per million.)");
-    Prims.outputPrint("It could reach 1000 ppm by 2014");
+    Prims.outputPrint("It could reach 1000 ppm by 2114");
     Globals.setGlobal(28, Globals.getGlobal(2));
   }
   if (!Prims.equality(Globals.getGlobal(27), Globals.getGlobal(3))) {
