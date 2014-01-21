@@ -1923,8 +1923,15 @@ Prims = {
     }
     return _results;
   },
+  clearOutput: function() {
+    var outputArea = document.getElementById('output');
+    while(outputArea.childNodes.length > 0) {
+      outputArea.removeChild(outputArea.childNodes[0]);
+    }
+  },
   outputPrint: function(x) {
-    return println(Dump(x));
+    var outputArea = document.getElementById('output');
+    outputArea.appendChild(document.createTextNode(x + '\n'));
   },
   patchSet: function() {
     var inputs, recurse, result;
