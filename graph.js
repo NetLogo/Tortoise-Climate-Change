@@ -20,7 +20,7 @@ function clearPlots() {
     xmin: 2014,
     dataSampleStart: 2014,
     xTickCount: 5,
-    ymax: 30,
+    ymax: 20,
     ymin: 10,
     lineWidth: 4.0,
 
@@ -100,3 +100,4 @@ if(window.parent && window.parent.DG) {
                ]
   })
 }
+
