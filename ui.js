@@ -56,7 +56,7 @@ function updateAvgTempMonitor() {
 }
 
 function stop() {
-  cancelTimeout(runner);
+  clearTimeout(runner);
   runner = -1;
 }
 
