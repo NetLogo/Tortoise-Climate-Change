@@ -335,14 +335,14 @@ function runSunshine() {
 }
 function createSunshine() {
   if ((Prims.randomFloat(100) < (0.2 * Globals.getGlobal(0)))) {
-    for(var i = 0; i < 2; i++) {
+    Prims.repeat(2, function() {
       AgentSet.ask(world.createTurtles(1, "SUNRAYS"), true, function() {
         AgentSet.setTurtleVariable(2, 160);
         AgentSet.setTurtleVariable(1, 45);
         AgentSet.setTurtleVariable(3, randomBetween(world.minPxcor, world.maxPxcor));
         AgentSet.setTurtleVariable(4, (world.maxPycor - 1));
       });
-    }
+    });
   }
 }
 function reflectSunraysFromClouds() {
@@ -428,10 +428,10 @@ function setClouds(n) {
     AgentSet.die();
   });
   var i = 0;
-  for(var i = 0; i < n; i++) {
+  Prims.repeat(n, function() {
     makeCloud(i, n);
     i = (i + 1);
-  }
+  });
 }
 function makeCloud(k, n) {
   var width = (Globals.getGlobal(4) - Globals.getGlobal(5));
@@ -441,7 +441,7 @@ function makeCloud(k, n) {
     y = 6;
   }
   var x = randomBetween(world.minPxcor, world.maxPxcor);
-  for(var i = 0; i < (3 + Prims.random(20)); i++) {
+  Prims.repeat((3 + Prims.random(20)), function () {
     AgentSet.ask(world.createTurtles(1, "CLOUDS"), true, function() {
       AgentSet.setBreedVariable("CLOUD-NUM", k);
       Prims.setXY(((x + Prims.random(9)) - 4), (y + Prims.random(Prims.random(5))));
@@ -450,48 +450,48 @@ function makeCloud(k, n) {
       AgentSet.setTurtleVariable(2, 90);
       AgentSet.setTurtleVariable(5, "cloud");
     });
-  }
+  });
 }
 function setCo2(n) {
   AgentSet.ask(world.turtlesOfBreed("CO2"), true, function() {
     AgentSet.die();
   });
-  for(var i = 0; i < n; i++) {
+  Prims.repeat(n, function () {
     AgentSet.ask(world.createTurtles(1, "CO2"), true, function() {
       AgentSet.setTurtleVariable(1, 55);
       AgentSet.setTurtleVariable(5, "molecule water");
       Prims.setXY(randomBetween(world.minPxcor, world.maxPxcor), randomBetween(Globals.getGlobal(5), Globals.getGlobal(4)));
       AgentSet.setTurtleVariable(2, Prims.random(360));
     });
-  }
+  });
 }
 function initializeSunrays(nUp, nDown) {
-  for(var i = 0; i < nUp; i++) {
+  Prims.repeat(nUp, function() {
     AgentSet.ask(world.createTurtles(1, "SUNRAYS"), true, function() {
       AgentSet.setTurtleVariable(2, 20);
       AgentSet.setTurtleVariable(1, 45);
       AgentSet.setTurtleVariable(3, randomBetween(world.minPxcor, world.maxPxcor));
       AgentSet.setTurtleVariable(4, randomBetween(Globals.getGlobal(5), Globals.getGlobal(4)));
-    });
-  }
-  for(var i = 0; i < nDown; i++) {
+    })
+  });
+  Prims.repeat(nDown, function() {
     AgentSet.ask(world.createTurtles(1, "SUNRAYS"), true, function() {
       AgentSet.setTurtleVariable(2, 160);
       AgentSet.setTurtleVariable(1, 45);
       AgentSet.setTurtleVariable(3, randomBetween(world.minPxcor, world.maxPxcor));
       AgentSet.setTurtleVariable(4, randomBetween(Globals.getGlobal(5), Globals.getGlobal(4)));
     });
-  }
+  });
 }
 function initializeHeat(n) {
-  for(var i = 0; i < n; i++) {
+  Prims.repeat(n, function() {
     AgentSet.ask(world.createTurtles(1, "HEAT"), true, function() {
       AgentSet.setTurtleVariable(1, 15);
       AgentSet.setTurtleVariable(5, "dot");
       AgentSet.setTurtleVariable(4, randomBetween(world.minPycor, Globals.getGlobal(5)));
       AgentSet.setTurtleVariable(3, randomBetween(world.minPxcor, world.maxPxcor));
     });
-  }
+  });
 }
 function randomBetween(a, b) {
   return (a + Prims.randomFloat((b - a)));

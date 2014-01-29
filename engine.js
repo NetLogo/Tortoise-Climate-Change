@@ -1967,6 +1967,12 @@ Prims = {
     };
     recurse(inputs);
     return new Agents(result);
+  },
+  repeat: function(n, fn) {
+    var i, _i;
+    for (i = _i = 0; 0 <= n ? _i < n : _i > n; i = 0 <= n ? ++_i : --_i) {
+      fn();
+    }
   }
 };
 
