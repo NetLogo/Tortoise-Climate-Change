@@ -60,17 +60,6 @@ function stop() {
   runner = -1;
 }
 
-function toggleOn() {
-  var goButton = document.getElementById('go-button');
-  if (runner < 0) {
-    goForever();
-    goButton.value = "Turn Off";
-  } else {
-    stop()
-    goButton.value = "Turn On";
-  }
-}
-
 function updateAlbedoSlider() {
   var albedoSlider = document.getElementById('Albedo-slider');
   var albedo = albedoSlider.value
@@ -100,7 +89,7 @@ function updateCloudsSlider() {
 }
 
 function initPage() {
-  document.getElementById('go-button').value = 'Turn On'
+  goForever();
 }
 
 startup();

@@ -95,6 +95,7 @@ function on_off() {
 function runModel() {
   if ((!(Globals.getGlobal(23)) && !(Globals.getGlobal(18)))) {
     Globals.setGlobal(19, true);
+    logUserAction("User started the model.");
   }
 }
 function stopModel() {
@@ -113,9 +114,15 @@ function analyzeData() {
       clear();
       Globals.setGlobal(24, false);
     }
+    openCODAPTable();
+    logUserAction("User exported the model.");
+    if(Global.getGlobal(10) < 2114) {
+      logUserAction("User analyzed data before end of a run.");
+    }
   }
 }
 function clearData() {
+  logUserAction("User set up a new run.");
   if (!(Globals.getGlobal(18))) {
     stopModel();
     if (!(Globals.getGlobal(22))) {
@@ -130,21 +137,8 @@ function clearData() {
         analyzeData();
       }
       if (Prims.equality(ans, true)) {
-        var options = [];
-        var a1 = "I'm just trying things out.";
-        options = Prims.lput(a1, options);
-        var a2 = "The data looks strange.";
-        options = Prims.lput(a2, options);
-        var a3 = "I'm making adjustments before analyzing data.";
-        options = Prims.lput(a3, options);
-        var a4 = "Other";
-        options = Prims.lput(a4, options);
-        var ans1 = noop("Why do you want to remove the data?", options);
+        $("#dialog").show();
         Globals.setGlobal(16, "");
-        /*
-        if (Prims.equality(ans1, a4)) {
-          Globals.setGlobal(16, noop("Why do you want to remove the data?"));
-        }*/
         clearCODAPData();
         clearPlots();
         clear();

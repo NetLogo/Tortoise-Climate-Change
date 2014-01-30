@@ -3,7 +3,7 @@ function doCommand(action,args) {
     var x = window.parent.DG.currGameController.doCommand({action: action, args: args});
     return x;
   } else {
-    alert("Not in datagames!");
+    alert("Not in datagames, couldn't do '" + action + "'!");
   }
 }
 
@@ -40,7 +40,9 @@ function record() {
             Globals.getGlobal(2),
             Globals.getGlobal(0),
             Globals.getGlobal(1),
-            Globals.getGlobal(3)
+            Globals.getGlobal(3),
+            Prims.precision(Globals.getGlobal(6), 1),
+            Prims.precision(Globals.getGlobal(11), 1)
           ]
         });
 
@@ -58,8 +60,37 @@ function record() {
           caseID: parentCase.caseID
         });
   } else {
-    alert("Not in datagames!");
+    alert("Not in datagames, couldn't record!");
   }
+}
+
+function logCODAPAction(message, args) {
+  doCommand("logAction", { formatStr: message, replaceArgs: args });
+}
+
+var perRunSettingsAndDataStr = '"fields": ["CO2 Level (ppm)", "Sun Brightness (%)", "Albedo ()", "Cloud Amount ()", "Year ()", "Final Yearly Temp. (°C)", "Final 10-year Avg. Temp. (°C)"],"values": [%@, %@, %@, %@, %@, %@]';
+function perRunSettingsAndData() {
+  return [
+    Globals.getGlobal(2),
+    Globals.getGlobal(0),
+    Globals.getGlobal(1),
+    Globals.getGlobal(3),
+    Prims.precision(Globals.getGlobal(6), 1),
+    Prims.precision(Globals.getGlobal(11), 1)];
+}
+
+
+function recordExplanation() {
+  logCODAPAction('User discarded data. Per-run Settings and Data: {' + perRunSettingsAndDataStr + ',"reasonCode": "%@", "reasonText": "%@" }',
+    perRunSettingsAndData().concat([$("#dialog :checked").val(), $("#dialog textarea").val()]));
+}
+
+function logUserAction(userAction) {
+  logCODAPAction(userAction + " Per-run Settings and Data: {" + perRunSettingsAndDataStr + "}", perRunSettingsAndData());
+}
+
+function openCODAPTable() {
+  doCommand("createComponent", { type: "DG.TableView", log: false });
 }
 
 function clearCODAPData() {
@@ -80,7 +111,9 @@ if(window.parent && window.parent.DG) {
         attrs: [ { name: "CO2 Level", type: "numeric", description: "AA", precision: 0, units:"ppm" },
                  { name: "Sun Brightness", type: "numeric", description: "BB", precision: 0 },
                  { name: "Albedo", type: "numeric", description: "BB", precision: 2 },
-                 { name: "Cloud Amount", type: "numeric", description: "BB", precision: 0 } ],
+                 { name: "Cloud Amount", type: "numeric", description: "BB", precision: 0 },
+                 { name: "Final Temp", type: "numeric", description: "BB", precision: 1 },
+                 { name: "Final Avg Temp", type: "numeric", description: "BB", precision: 1 } ],
                  childAttrName: "yar" },
       { name: "Year",
         attrs: [ { name: "Year", type: "numeric", description: "XX", precision: 0, units:"ppm" },
