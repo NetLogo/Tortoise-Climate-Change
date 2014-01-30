@@ -65,7 +65,7 @@ function record() {
 }
 
 function logCODAPAction(message, args) {
-  doCommand("logAction", { formatStr: message, replaceArgs: args })
+  doCommand("logAction", { formatStr: message, replaceArgs: args });
 }
 
 var perRunSettingsAndDataStr = '"fields": ["CO2 Level (ppm)", "Sun Brightness (%)", "Albedo ()", "Cloud Amount ()", "Year ()", "Final Yearly Temp. (°C)", "Final 10-year Avg. Temp. (°C)"],"values": [%@, %@, %@, %@, %@, %@]';
@@ -76,21 +76,21 @@ function perRunSettingsAndData() {
     Globals.getGlobal(1),
     Globals.getGlobal(3),
     Prims.precision(Globals.getGlobal(6), 1),
-    Prims.precision(Globals.getGlobal(11), 1)]
+    Prims.precision(Globals.getGlobal(11), 1)];
 }
 
 
 function recordExplanation() {
   logCODAPAction('User discarded data. Per-run Settings and Data: {' + perRunSettingsAndDataStr + ',"reasonCode": "%@", "reasonText": "%@" }',
-    perRunSettingsAndData().concat([$("#dialog :checked").val(), $("#dialog textarea").val()]))
+    perRunSettingsAndData().concat([$("#dialog :checked").val(), $("#dialog textarea").val()]));
 }
 
 function logUserAction(userAction) {
-  logCODAPAction(userAction + " Per-run Settings and Data: {" + perRunSettingsAndDataStr + "}", perRunSettingsAndData())
+  logCODAPAction(userAction + " Per-run Settings and Data: {" + perRunSettingsAndDataStr + "}", perRunSettingsAndData());
 }
 
 function openCODAPTable() {
-  doCommand("createComponent", { type: "DG.TableView", log: false })
+  doCommand("createComponent", { type: "DG.TableView", log: false });
 }
 
 function clearCODAPData() {
