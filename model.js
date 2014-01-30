@@ -95,6 +95,7 @@ function on_off() {
 function runModel() {
   if ((!(Globals.getGlobal(23)) && !(Globals.getGlobal(18)))) {
     Globals.setGlobal(19, true);
+    logUserAction("User started the model.")
   }
 }
 function stopModel() {
@@ -114,9 +115,14 @@ function analyzeData() {
       Globals.setGlobal(24, false);
     }
     openCODAPTable();
+    logUserAction("User exported the model.")
+    if(Global.getGlobal(10) < 2114) {
+      logUserAction("User analyzed data before end of a run.")
+    }
   }
 }
 function clearData() {
+  logUserAction("User set up a new run.")
   if (!(Globals.getGlobal(18))) {
     stopModel();
     if (!(Globals.getGlobal(22))) {
