@@ -113,6 +113,7 @@ function analyzeData() {
       clear();
       Globals.setGlobal(24, false);
     }
+    openCODAPTable();
   }
 }
 function clearData() {

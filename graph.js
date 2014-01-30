@@ -3,7 +3,7 @@ function doCommand(action,args) {
     var x = window.parent.DG.currGameController.doCommand({action: action, args: args});
     return x;
   } else {
-    alert("Not in datagames!");
+    alert("Not in datagames, couldn't do '" + action + "'!");
   }
 }
 
@@ -58,8 +58,12 @@ function record() {
           caseID: parentCase.caseID
         });
   } else {
-    alert("Not in datagames!");
+    alert("Not in datagames, couldn't record!");
   }
+}
+
+function openCODAPTable() {
+  doCommand("createComponent", { type: "DG.TableView", log: false })
 }
 
 function clearCODAPData() {
