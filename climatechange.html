@@ -56,6 +56,28 @@
       </div>
     </div>
 
+    <div id="dialog" style="background-color:white;border:1px solid black;box-shadow: 10px 10px 10px black;margin:auto;position:relative;width:400px;z-index:3;display:none">
+      <div style="background-color:#8ACCCE;height:24px">
+        <div style="float:right;height:16px;width:16px;text-align:center;background-color:white;border:1px solid black;cursor:pointer;margin:2px;" onclick='$("#dialog").hide()'>X</div>
+      </div>
+      <div style="padding:8px">
+        <p>You're setting up a new run without saving your data.  Please indicate why:
+          <ul style="list-style-type:none;padding-left:0px">
+            <li><input type="radio" name="why" value="I'm just trying things out.">I'm just trying things out.
+            <li><input type="radio" name="why" value="The data looks strange.">The data looks strange.
+            <li><input type="radio" name="why" value="I'm making adjustments before collecting data.">I'm making adjustments before collecting data.
+            <li><input type="radio" name="why" value="Other">Other
+          </ul>
+        </p>
+        <span style="color:#333333;font-style:italic">Please explain "other" responses below</span>
+        <textarea id="explanation" style="width:380px"></textarea>
+        <hr>
+        <button style="float:right" onclick='$("#dialog").hide()'>Cancel</button>
+        <button style="float:right;margin-right:5px" onclick='$("#dialog").hide();recordExplanation();'>OK</button>
+        <div style="clear:both"></div>
+      </div>
+    </div>
+
     <script type="text/javascript" src='graph.js'></script>
     <script type="text/javascript" src='compat.js'></script>
     <script type="text/javascript" src='engine.js'></script>
