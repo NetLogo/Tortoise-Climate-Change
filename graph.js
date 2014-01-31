@@ -37,12 +37,12 @@ function record() {
     parentCase = doCommand('openCase', {
           collection: "Run",
           values: [
+            Prims.precision(Globals.getGlobal(6), 1),
+            Prims.precision(Globals.getGlobal(11), 1),
             Globals.getGlobal(2),
             Globals.getGlobal(0),
             Globals.getGlobal(1),
-            Globals.getGlobal(3),
-            Prims.precision(Globals.getGlobal(6), 1),
-            Prims.precision(Globals.getGlobal(11), 1)
+            Globals.getGlobal(3)
           ]
         });
 
@@ -108,12 +108,12 @@ if(window.parent && window.parent.DG) {
     name: "Climate Change",
     collections: [
       { name: "Run",
-        attrs: [ { name: "CO2 Level", type: "numeric", description: "AA", precision: 0, units:"ppm" },
+        attrs: [ { name: "Final Temp", type: "numeric", description: "BB", precision: 1 },
+                 { name: "Final Avg Temp", type: "numeric", description: "BB", precision: 1 },
+                 { name: "CO2 Level", type: "numeric", description: "AA", precision: 0, units:"ppm" },
                  { name: "Sun Brightness", type: "numeric", description: "BB", precision: 0 },
                  { name: "Albedo", type: "numeric", description: "BB", precision: 2 },
-                 { name: "Cloud Amount", type: "numeric", description: "BB", precision: 0 },
-                 { name: "Final Temp", type: "numeric", description: "BB", precision: 1 },
-                 { name: "Final Avg Temp", type: "numeric", description: "BB", precision: 1 } ],
+                 { name: "Cloud Amount", type: "numeric", description: "BB", precision: 0 } ],
                  childAttrName: "yar" },
       { name: "Year",
         attrs: [ { name: "Year", type: "numeric", description: "XX", precision: 0, units:"ppm" },
