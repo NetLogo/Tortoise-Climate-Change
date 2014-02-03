@@ -9,9 +9,13 @@ var MAX_UPS      = 1000;
 // If the HTML was saved in the non-default state, correct it.
 window.addEventListener('load', initPage);
 
+function speed() {
+  return document.getElementById('speed-toggle').checked ? 0.381 : 1.0;
+}
+
 function goForever() {
   var startTime     = new Date().getTime(),
-      ups           = Math.pow(MAX_UPS, document.getElementById('speed-slider').value),
+      ups           = Math.pow(MAX_UPS, speed()),
       maxNumUpdates = ups * MS_PER_FRAME / 1000;
 
   for (var i=0; i < maxNumUpdates && new Date().getTime() - startTime < MS_PER_FRAME; i++) {
