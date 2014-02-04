@@ -1,6 +1,9 @@
 ; A simplified four parameter model of climate change
-; Dec 16, 2013
-; Copyright (c) 2013 the Concord Consortium
+; Jan 27, 2014
+; Copyright (c) 2014 the Concord Consortium
+; Designed to be converted HTML5, which executes slower
+; To speed up this version, I have reduce thed number of turtles and
+;      replaced the clouds with uniform reflection.
 
 breed [ clouds ]
 breed [ sunrays sunray ]
@@ -233,9 +236,9 @@ to initialize
   setup-starting-conditions  ; for heat rays, sunrays, and temperature
   set-CO2 40   ; start out with 40 CO2 molecules (representing 400ppm)
   set-clouds 5      ; start with 10 clouds
-  set steps-per-year 100           
+  set steps-per-year 30
   set time-step 1 / steps-per-year
-  set alpha time-step / 20  ; the 1/alpha is the number of steps being averaged
+  set alpha time-step / 10  ; the 1/alpha is the number of steps being averaged
   set beta 1 - alpha
   set count-heat count heat ; count-heat is a smoothed version of count heat
   set starting-up? false
@@ -264,7 +267,7 @@ to initialize-variables         ; these are initialized only once, when the prog
   set start-year 2014
   set year start-year
   set old-year 0;
-  set run-duration 100
+  set run-duration 70
   set-plot-x-range start-year (start-year + run-duration)
   auto-plot-on 
   set sun-brightness 100
@@ -367,11 +370,18 @@ to create-sunshine
         set ycor max-pycor - 1 ]]] 
 end
  
-to reflect-sunrays-from-clouds
+to reflect-sunrays-from-clouds-old
   ask sunrays [
     if (count clouds-here > 0 ) [   ; if sunray shares patch with a cloud
       set heading random 360 ]]  ; send the sunray off in a random direction
 end 
+
+to reflect-sunrays-from-clouds  ; this version takes into account the number of clouds, but is smoother
+  let bounce 3 * cloud-amount
+  ask sunrays [
+    if (random 1000) < bounce [
+      set heading random 360 ]]
+end
 
 to encounter-earth                  ; this controls what happens when a sunray hits the earth
   let percent-absorbed 100 * (1 - albedo)  ; if albedo is 1 it is white and absorption is zero
@@ -689,7 +699,7 @@ MONITOR
 436
 770
 481
-Averaged Temperature
+10 year average temp.
 (word \"         \" precision Smooth-temperature 1 \" C\")
 17
 1
@@ -805,7 +815,7 @@ TEXTBOX
 374
 748
 426
-Red: current temperature\nBlack: averaged temperature\n  (averaged over the last 20 years)
+Red: current temperature\nBlack: average temperature\n  (over the last 10 years)
 10
 0.0
 1
