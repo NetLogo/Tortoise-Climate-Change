@@ -163,26 +163,26 @@ function actOnChanges() {
       updateAlbedo();
     });
     Prims.clearOutput();
-    Prims.outputPrint("Albedo is the average fraction of sunlight that is reflected.");
-    Prims.outputPrint("Ice has albedo near 1. Forests and oceans have albedos near 0.");
+    Prims.outputPrint("Albedo is the fraction of sunlight that is reflected.");
+    Prims.outputPrint("Ice has albedo near 1. Forests and oceans are near 0.");
     Globals.setGlobal(26, Globals.getGlobal(1));
   }
   if (!Prims.equality(Globals.getGlobal(28), Globals.getGlobal(2))) {
     setCo2(StrictMath.round((0.1 * Globals.getGlobal(2))));
     Prims.clearOutput();
     Prims.outputPrint("The CO2 level in 2013 was 400 ppm (ppm = parts per million.)");
-    Prims.outputPrint("It could reach 1000 ppm by 2114");
+    Prims.outputPrint("It could reach 1000 ppm by 2114.");
     Globals.setGlobal(28, Globals.getGlobal(2));
   }
   if (!Prims.equality(Globals.getGlobal(27), Globals.getGlobal(3))) {
     setClouds(Globals.getGlobal(3));
     Prims.clearOutput();
-    Prims.outputPrint("The cloud-amount is the number of clouds in this model");
+    Prims.outputPrint("The number of clouds in this model.");
     Globals.setGlobal(27, Globals.getGlobal(3));
   }
   if (!Prims.equality(Globals.getGlobal(25), Globals.getGlobal(0))) {
     Prims.clearOutput();
-    Prims.outputPrint("The sun brightness is a percent of the average brighness.");
+    Prims.outputPrint("The sun brightness is a percent of the average brightness.");
     Prims.outputPrint("The usual value is between 97% and 103%.");
     Globals.setGlobal(25, Globals.getGlobal(0));
   }
