@@ -116,7 +116,7 @@ function analyzeData() {
     }
     openCODAPTable();
     logUserAction("User exported the model.");
-    if(Global.getGlobal(10) < 2114) {
+    if(Globals.getGlobal(10) < 2114) {
       logUserAction("User analyzed data before end of a run.");
     }
   }
@@ -135,6 +135,9 @@ function clearData() {
       if (Prims.equality(ans, false)) {
         Globals.setGlobal(24, true);
         analyzeData();
+        clearCODAPData();
+        clearPlots();
+        clear();
       }
       if (Prims.equality(ans, true)) {
         $("#dialog").show();
