@@ -195,9 +195,9 @@ function initialize() {
   setupStartingConditions();
   setCo2(40);
   setClouds(5);
-  Globals.setGlobal(13, 100);
+  Globals.setGlobal(13, 30);
   Globals.setGlobal(12, (1 / Globals.getGlobal(13)));
-  Globals.setGlobal(14, (Globals.getGlobal(12) / 20));
+  Globals.setGlobal(14, (Globals.getGlobal(12) / 10));
   Globals.setGlobal(15, (1 - Globals.getGlobal(14)));
   Globals.setGlobal(17, AgentSet.count(world.turtlesOfBreed("HEAT")));
   Globals.setGlobal(18, false);
@@ -223,7 +223,7 @@ function initializeVariables() {
   Globals.setGlobal(10, 2014);
   Globals.setGlobal(8, Globals.getGlobal(10));
   Globals.setGlobal(9, 0);
-  Globals.setGlobal(21, 100);
+  Globals.setGlobal(21, 70);
   noop(Globals.getGlobal(10), (Globals.getGlobal(10) + Globals.getGlobal(21)));
   noop();
   Globals.setGlobal(0, 100);
@@ -339,9 +339,17 @@ function createSunshine() {
     });
   }
 }
-function reflectSunraysFromClouds() {
+function reflectSunraysFromCloudsOld() {
   AgentSet.ask(world.turtlesOfBreed("SUNRAYS"), true, function() {
     if ((AgentSet.count(AgentSet.self().breedHere("CLOUDS")) > 0)) {
+      AgentSet.setTurtleVariable(2, Prims.random(360));
+    }
+  });
+}
+function reflectSunraysFromClouds() {
+  var bounce = (3 * Globals.getGlobal(3));
+  AgentSet.ask(world.turtlesOfBreed("SUNRAYS"), true, function() {
+    if ((Prims.random(1000) < bounce)) {
       AgentSet.setTurtleVariable(2, Prims.random(360));
     }
   });
