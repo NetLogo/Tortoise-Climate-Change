@@ -16,7 +16,7 @@ function clearPlots() {
     title: 'Global Temperature',
     xlabel: 'Year',
     ylabel: 'Temperature',
-    xmax: 2124,
+    xmax: 2084,
     xmin: 2014,
     dataSampleStart: 2014,
     xTickCount: 5,
