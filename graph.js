@@ -101,7 +101,7 @@ var yearlyData = [];
 graph = LabGrapher('#labgraph');
 clearPlots();
 
-graph.resize(286, 325);
+graph.resize(261, 302);
 
 if(window.parent && window.parent.DG) {
   doCommand('initGame', {
@@ -131,6 +131,6 @@ if(window.parent && window.parent.DG) {
           yAttr: "year"
                   } }
                ]
-  })
+  });
 }
 

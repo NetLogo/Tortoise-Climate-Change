@@ -9,47 +9,47 @@
   <body style="background-color:white">
 
     <label><input id="speed-toggle" type="checkbox"> Slow Motion</label>
-    <br/>
+  <br/>
     <div style="position:relative">
-      <div class='view-container' style="width: 555px;position:absolute;top:10px;left:4px;border:1px solid black"></div>
-      <div id="labgraph" class="graph" style="position:absolute;left:565px;top:78px;height:345px;width:286px"></div>
-      <input type="button" onclick="runModel();" value="Start" style="position:absolute;left:569px;top:10px;width:124px;height:33px"></input>
-      <input type="button" onclick="stopModel();" value="Stop" style="position:absolute;left:692px;top:10px;width:124px;height:33px"></input>
-      <input type="button" onclick="analyzeData();" value="Analyze Data" style="position:absolute;left:569px;top:43px;width:124px;height:33px"></input>
-      <input type="button" onclick="clearData();" value="New Run" style="position:absolute;left:692px;top:43px;width:124px;height:33px"></input>
+      <div class='view-container' style="width: 480px;position:absolute;top:10px;left:4px;border:1px solid black"></div>
+      <div id="labgraph" class="graph" style="position:absolute; left:491px; top:49px; height:302px; width:261px"></div>
+      <input type="button" onClick="runModel();" value="Start" style="position:absolute; left:495px; top:-19px; width:124px; height:33px"></input>
+      <input type="button" onClick="stopModel();" value="Stop" style="position:absolute; left:618px; top:-19px; width:124px; height:33px"></input>
+      <input type="button" onClick="analyzeData();" value="Analyze Data" style="position:absolute; left:495px; top:14px; width:124px; height:33px;"></input>
+      <input type="button" onClick="clearData();" value="New Run" style="position:absolute; left:618px; top:14px; width:124px; height:33px"></input>
 
-      <div style="width:136px;position:absolute;left:4px;top:368px;height:33px;border:1px solid black">
-        <input id="CO2-slider" onchange="updateCO2Slider();" type="range" value="400" min=0 max=1000 step=50 style="width: 100px" autocomplete="off"></input>
+      <div style="width:117px;position:absolute;left:4px;top:318px;height:33px;border:1px solid black">
+        <input id="CO2-slider" onChange="updateCO2Slider();" type="range" value="400" min=0 max=1000 step=50 style="width: 100px" autocomplete="off"></input>
         <div style="position:absolute;top:15px;left:2px">CO<sub>2</sub>: <span id="c02num">400</span>ppm</div>
       </div>
-      <div style="width:136px;position:absolute;left:144px;top:368px;height:33px;border:1px solid black">
-        <input id="Brightness-slider" onchange="updateBrightnessSlider();" type="range" value="100" min=75 max=125 step=5 style="width: 100px" autocomplete="off">
+      <div style="width:117px; position:absolute; left:125px; top:318px; height:33px; border:1px solid black">
+        <input id="Brightness-slider" onChange="updateBrightnessSlider();" type="range" value="100" min=75 max=125 step=5 style="width: 100px" autocomplete="off">
         <div style="position:absolute;top:15px;left:2px">Brightness: <span id="brightnessnum">100</span>%</div>
       </div>
-      <div style="width:136px;position:absolute;left:284px;top:368px;height:33px;border:1px solid black">
-        <input id="Albedo-slider" onchange="updateAlbedoSlider();" type="range" value=".35" min=0 max=1 step=.05 style="width: 120px;position:absolute;left:0px;height:15px" autocomplete="off"></input>
+      <div style="width:117px;position:absolute;left:246px;top:318px;height:33px;border:1px solid black">
+        <input id="Albedo-slider" onChange="updateAlbedoSlider();" type="range" value=".35" min=0 max=1 step=.05 style="width: 100px;position:absolute;left:0px;height:15px" autocomplete="off"></input>
         <div style="position:absolute;top:15px;left:2px">Albedo: <span id="albedonum">0.35</span></div>
       </div>
-      <div style="width:136px;position:absolute;left:424px;top:368px;height:33px;border:1px solid black">
-        <input id="Clouds-slider" onchange="updateCloudsSlider();" type="range" value="5" min=0 max=25 step=5 style="width: 100px" autocomplete="off"></input>
-        <div style="position:absolute;top:15px;left:2px">Cloud-Amount: <span id="cloudsnum">5</span></div>
+      <div style="width:117px;position:absolute;left:367px;top:318px;height:33px;border:1px solid black">
+        <input id="Clouds-slider" onChange="updateCloudsSlider();" type="range" value="5" min=0 max=25 step=5 style="width: 100px" autocomplete="off"></input>
+        <div style="position:absolute;top:15px;left:2px">Clouds: <span id="cloudsnum">5</span></div>
       </div>
-      <pre id='output' style="left:4px;width:557px;overflow:auto;height:40px;border:1px solid black;position:absolute;top:395px"></pre>
-      <div style="position:absolute;left:565px;width:80px;top:402px;height:45px;border:1px solid black">
-        <div style="position:absolute;width:80px;text-align:center;background-color:#CCCCCC; color:rgb(160,0,0)">Temperature</div>
-        <pre id='temp-monitor' style='width:80px;height:20px;top:12px;position:absolute'></pre>
+      <pre id='output' style="left:4px; width:480px; overflow:auto; height:40px; border:1px solid black; position:absolute; top:343px"></pre>
+      <div style="position:absolute; left:491px; width:85px; top:351px; height:45px; border:1px solid black">
+        <div style="position:absolute;width:85px;text-align:center;background-color:#CCCCCC; color:rgb(160,0,0)">Temperature</div>
+        <pre id='temp-monitor' style='width:85px;height:20px;top:12px;position:absolute'></pre>
       </div>
-      <div style="position:absolute;left:648px;width:150px;top:402px;height:45px;border:1px solid black">
-        <div style="position:absolute;width:150px;text-align:center;background-color:#CCCCCC; color:rgb(44,160,0)">10 year average temp.</div>
-        <pre id='avg-temp-monitor' style='width:150px;height:20px;top:12px;position:absolute'></pre>
+      <div style="position:absolute; left:579px; width:121px; top:351px; height:45px; border:1px solid black">
+        <div style="position:absolute;width:121px;text-align:center;background-color:#CCCCCC; color:rgb(44,160,0)">10yr avg. temp.</div>
+        <pre id='avg-temp-monitor' style='width:121px;height:20px;top:12px;position:absolute'></pre>
       </div>
-      <div style="position:absolute;left:801px;width:50px;top:402px;height:45px;border:1px solid black">
+      <div style="position:absolute; left:703px; width:50px; top:351px; height:45px; border:1px solid black">
         <div style="position:absolute;width:50px;text-align:center;background-color:#CCCCCC">Year</div>
         <pre id='year-monitor' style='width:50px;height:20px;top:12px;position:absolute'></pre>
       </div>
 
-      <div id="powered-by-wrapper" style="position:absolute;top:455px;left:725px">
-        <a href="http://ccl.northwestern.edu/netlogo/">
+      <div id="powered-by-wrapper" style="position:absolute; top:-21px; left:348px">
+        <a target="_blank" href="http://ccl.northwestern.edu/netlogo/">
           <img style="vertical-align: middle; height: 20px; width: 20px;" alt="NetLogo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAANcSURBVHjarJRdaFxFFMd/M/dj7252uxubKms+bGprVyIVbNMWWqkQqtLUSpQWfSiV+oVFTcE3DeiDgvoiUSiCYLH2oVoLtQ+iaaIWWtE2FKGkkSrkq5svN+sm7ma/7p3x4W42lEbjQw8MM8yc87/nzPnNFVprbqWJXyMyXuMqx1Ni6N3ny3cX8tOHNLoBUMvESoFI2Xbs4zeO1lzREpSrMSNS1zkBDv6uo1/noz1H7mpvS4SjprAl2AZYEqzKbEowBAgBAkjPKX2599JjT7R0bj412D0JYNplPSBD1G2SmR/e6u1ikEHG2vYiGxoJmxAyIGSCI8GpCItKimtvl2JtfGujDNkX6epuAhCjNeAZxM1ocPy2Qh4toGQ5DLU+ysiuA2S3P0KgJkjAgEAlQylAA64CG/jlUk6//ng4cNWmLK0yOPNMnG99Rs9LQINVKrD+wmke7upg55PrWP3eYcwrlykpKCkoelDy/HVegQhoABNAepbACwjOt72gZkJhypX70YDWEEklue+rbnYc2MiGp1upPfYReiJJUUG58gFXu4udch1wHcjFIgy0HyIjb2yvBpT2F6t+6+f+D15lW8c9JDo7iPSdgVIRLUqL2AyHDQAOf9hfbqxvMF98eT3RuTS1avHyl+Stcphe2chP9+4k/t3RbXVl3W+Ws17FY56/w3VcbO/koS/eZLoAqrQMxADZMTYOfwpwoWjL4+bCYcgssMqGOzPD6CIkZ/3SxTJ0ayFIN6/BnBrZb2XdE1JUgkJWkfrUNRJnPyc16zsbgPyXIUJBpvc+y89nk/S8/4nek3NPGeBWMwzGvhUPnP6RubRLwfODlqqx3LSCyee2MnlwMwA2RwgO5qouVcHmksUdJweYyi8hZkrUjgT5t/ejNq0jBsSqNWsKyT9uFtxw7Bs585d3g46KOeT2bWHmtd14KyP+5mzqpsYU3OyioACMhGiqPTMocsrHId9cy9BLDzKxq8X3ctMwlV6yKSHL4fr4dd0DeQBTBUgUkvpE1kVPbqkX117ZzuSaFf4zyfz5n9A4lk0yNU7vyb7jTy1kmFGipejKvh6h9n0W995ZPTu227hqmCz33xXgFV1v9NzI96NfjndWt7XWCB/7BSICFWL+j3lAofpCtfYFb6X9MwCJZ07mUsXRGwAAAABJRU5ErkJggg=="/>
           <span style="font-size: 12px;">powered by NetLogo</span>
         </a>
