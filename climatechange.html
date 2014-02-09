@@ -13,10 +13,10 @@
     <div style="position:relative">
       <div class='view-container' style="width: 480px;position:absolute;top:10px;left:4px;border:1px solid black"></div>
       <div id="labgraph" class="graph" style="position:absolute; left:491px; top:49px; height:302px; width:261px"></div>
-      <input type="button" onClick="runModel();" value="Start" style="position:absolute; left:495px; top:-19px; width:124px; height:33px"></input>
-      <input type="button" onClick="stopModel();" value="Stop" style="position:absolute; left:618px; top:-19px; width:124px; height:33px"></input>
-      <input type="button" onClick="analyzeData();" value="Analyze Data" style="position:absolute; left:495px; top:14px; width:124px; height:33px;"></input>
-      <input type="button" onClick="clearData();" value="New Run" style="position:absolute; left:618px; top:14px; width:124px; height:33px"></input>
+      <input id="start-button" type="button" onClick="startButton();" value="Start" style="position:absolute; left:495px; top:-19px; width:124px; height:33px"></input>
+      <input id="stop-button" type="button" onClick="stopButton();" value="Stop" style="position:absolute; left:618px; top:-19px; width:124px; height:33px"></input>
+      <input id="analyze-button" type="button" onClick="analyzeButton();" value="Analyze Data" style="position:absolute; left:495px; top:14px; width:124px; height:33px;"></input>
+      <input id="new-run-button" type="button" onClick="newRunButton();" value="New Run" style="position:absolute; left:618px; top:14px; width:124px; height:33px"></input>
 
       <div style="width:117px;position:absolute;left:4px;top:318px;height:33px;border:1px solid black">
         <input id="CO2-slider" onInput="updateCO2Slider();" type="range" value="400" min=0 max=1000 step=50 style="width: 100px" autocomplete="off"></input>

@@ -5,6 +5,11 @@ var MIN_FPS      = 15;
 var MS_PER_FRAME = 1000 / MIN_FPS;
 var MAX_UPS      = 1000;
 
+var uiState      = {
+  running: false,
+  dataAvailable: false
+}
+
 
 // If the HTML was saved in the non-default state, correct it.
 window.addEventListener('load', initPage);
@@ -92,9 +97,47 @@ function updateCloudsSlider() {
   Globals.setGlobal(3, clouds)
 }
 
+function startButton() {
+  uiState.running = true;
+  updateEnabledWidgets();
+  runModel();
+}
+
+function stopButton() {
+  uiState.running = false;
+  uiState.dataAvailable = true;
+  updateEnabledWidgets();
+  stopModel();
+}
+
+function analyzeButton() {
+  uiState.dataAvailable = false;
+  updateEnabledWidgets();
+  analyzeData();
+}
+
+function newRunButton() {
+  uiState.running = false;
+  uiState.dataAvailable = false;
+  updateEnabledWidgets();
+  clearData();
+}
+
+function updateEnabledWidgets() {
+  $('#start-button').prop('disabled', uiState.running);
+  $('#stop-button').prop('disabled', !uiState.running);
+  $('#new-run-button').prop('disabled', !uiState.running && !uiState.dataAvailable);
+  $('#analyze-button').prop('disabled', !uiState.dataAvailable);
+  $('#CO2-slider').prop('disabled', uiState.running);
+  $('#Brightness-slider').prop('disabled', uiState.running);
+  $('#Albedo-slider').prop('disabled', uiState.running);
+  $('#Clouds-slider').prop('disabled', uiState.running);
+}
+
 function initPage() {
   goForever();
 }
 
 startup();
 session.update(collectUpdates());
+updateEnabledWidgets();
