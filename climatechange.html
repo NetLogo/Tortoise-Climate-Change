@@ -19,19 +19,19 @@
       <input type="button" onClick="clearData();" value="New Run" style="position:absolute; left:618px; top:14px; width:124px; height:33px"></input>
 
       <div style="width:117px;position:absolute;left:4px;top:318px;height:33px;border:1px solid black">
-        <input id="CO2-slider" onChange="updateCO2Slider();" type="range" value="400" min=0 max=1000 step=50 style="width: 100px" autocomplete="off"></input>
+        <input id="CO2-slider" onInput="updateCO2Slider();" type="range" value="400" min=0 max=1000 step=50 style="width: 100px" autocomplete="off"></input>
         <div style="position:absolute;top:15px;left:2px">CO<sub>2</sub>: <span id="c02num">400</span>ppm</div>
       </div>
       <div style="width:117px; position:absolute; left:125px; top:318px; height:33px; border:1px solid black">
-        <input id="Brightness-slider" onChange="updateBrightnessSlider();" type="range" value="100" min=75 max=125 step=5 style="width: 100px" autocomplete="off">
+        <input id="Brightness-slider" onInput="updateBrightnessSlider();" type="range" value="100" min=75 max=125 step=5 style="width: 100px" autocomplete="off">
         <div style="position:absolute;top:15px;left:2px">Brightness: <span id="brightnessnum">100</span>%</div>
       </div>
       <div style="width:117px;position:absolute;left:246px;top:318px;height:33px;border:1px solid black">
-        <input id="Albedo-slider" onChange="updateAlbedoSlider();" type="range" value=".35" min=0 max=1 step=.05 style="width: 100px;position:absolute;left:0px;height:15px" autocomplete="off"></input>
+        <input id="Albedo-slider" onInput="updateAlbedoSlider();" type="range" value=".35" min=0 max=1 step=.05 style="width: 100px;position:absolute;left:0px;height:15px" autocomplete="off"></input>
         <div style="position:absolute;top:15px;left:2px">Albedo: <span id="albedonum">0.35</span></div>
       </div>
       <div style="width:117px;position:absolute;left:367px;top:318px;height:33px;border:1px solid black">
-        <input id="Clouds-slider" onChange="updateCloudsSlider();" type="range" value="5" min=0 max=25 step=5 style="width: 100px" autocomplete="off"></input>
+        <input id="Clouds-slider" onInput="updateCloudsSlider();" type="range" value="5" min=0 max=25 step=5 style="width: 100px" autocomplete="off"></input>
         <div style="position:absolute;top:15px;left:2px">Clouds: <span id="cloudsnum">5</span></div>
       </div>
       <pre id='output' style="left:4px; width:480px; overflow:auto; height:40px; border:1px solid black; position:absolute; top:343px"></pre>
