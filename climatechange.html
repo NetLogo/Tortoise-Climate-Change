@@ -63,14 +63,12 @@
       <div style="padding:8px">
         <p>You're setting up a new run without saving your data.  Please indicate why:
           <ul style="list-style-type:none;padding-left:0px">
-            <li><input type="radio" name="why" value="I'm just trying things out.">I'm just trying things out.
-            <li><input type="radio" name="why" value="The data looks strange.">The data looks strange.
-            <li><input type="radio" name="why" value="I'm making adjustments before collecting data.">I'm making adjustments before collecting data.
-            <li><input type="radio" name="why" value="Other">Other
+            <li><input type="radio" name="why" value="trying-things-out">Just trying things out.
+            <li><input type="radio" name="why" value="experiment-worked-not-satisfied">Experiment worked, but not satisfied with the data.
+            <li><input type="radio" name="why" value="something-went-wrong">Something went wrong during the experiment.
+            <li><input type="radio" name="why" value="other">Other.
           </ul>
         </p>
-        <span style="color:#333333;font-style:italic">Please explain "other" responses below</span>
-        <textarea id="explanation" style="width:380px"></textarea>
         <hr>
         <button style="float:right" onclick='$("#dialog").hide()'>Cancel</button>
         <button style="float:right;margin-right:5px" onclick='$("#dialog").hide();recordExplanation();'>OK</button>

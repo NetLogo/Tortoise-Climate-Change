@@ -82,7 +82,7 @@ function perRunSettingsAndData() {
 
 function recordExplanation() {
   logCODAPAction('User discarded data. Per-run Settings and Data: {' + perRunSettingsAndDataStr + ',"reasonCode": "%@", "reasonText": "%@" }',
-    perRunSettingsAndData().concat([$("#dialog :checked").val(), $("#dialog textarea").val()]));
+    perRunSettingsAndData());
 }
 
 function logUserAction(userAction) {
