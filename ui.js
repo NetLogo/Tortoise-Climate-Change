@@ -118,9 +118,15 @@ function analyzeButton() {
 
 function newRunButton() {
   uiState.running = false;
-  uiState.dataAvailable = false;
+  // new run is like stop. This gets cleared if they press ok on the resulting dialog
+  uiState.dataAvailable = true;
   updateEnabledWidgets();
   clearData();
+}
+
+function newRunClearData() {
+  uiState.dataAvailable = false
+  updateEnabledWidgets();
 }
 
 function updateEnabledWidgets() {

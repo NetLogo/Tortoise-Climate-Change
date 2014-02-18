@@ -129,23 +129,8 @@ function clearData() {
       clearCODAPData();
       clearPlots();
       clear();
-    }
-    if (Globals.getGlobal(22)) {
-      var ans = confirm("Lose current data and set up new run?");
-      if (Prims.equality(ans, false)) {
-        Globals.setGlobal(24, true);
-        analyzeData();
-        clearCODAPData();
-        clearPlots();
-        clear();
-      }
-      if (Prims.equality(ans, true)) {
-        $("#dialog").show();
-        Globals.setGlobal(16, "");
-        clearCODAPData();
-        clearPlots();
-        clear();
-      }
+    } else {
+      $("#dialog").show();
     }
   }
 }
