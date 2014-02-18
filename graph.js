@@ -84,7 +84,6 @@ function recordExplanation() {
   logCODAPAction('User discarded data. Per-run Settings and Data: {' + perRunSettingsAndDataStr + ',"reasonCode": "%@", "reasonText": "%@" }',
     perRunSettingsAndData());
   Globals.setGlobal(16, "");
-  newRunClearData();
   clearCODAPData();
   clearPlots();
   clear();
