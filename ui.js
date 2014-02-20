@@ -5,6 +5,13 @@ var MIN_FPS      = 15;
 var MS_PER_FRAME = 1000 / MIN_FPS;
 var MAX_UPS      = 1000;
 
+var uiState = {
+  running: false,
+  atEnd: false,
+  atBeginning: true
+}
+
+var lastUIState = {};
 
 // If the HTML was saved in the non-default state, correct it.
 window.addEventListener('load', initPage);
@@ -27,16 +34,25 @@ function goForever() {
   updateAvgTempMonitor();
   session.update(collectUpdates());
   runner = setTimeout(goForever, 1000 / ups - (new Date().getTime() - startTime));
+  uiState.atBeginning = year() <= 2014;
+  uiState.atEnd = year() >= 2084;
+  if (uiState.atEnd) {
+    uiState.running = false;
+  }
+  updateEnabledWidgets();
 }
 
 var yearMonitor = $('#year-monitor');
 var yearMonitorValue = 0;
 function updateYearMonitor() {
-  var year = Prims.precision(Globals.getGlobal(8), 0)
-  if(year != yearMonitorValue) {
-    yearMonitor.html(year)
-    yearMonitorValue = year;
+  if(year() != yearMonitorValue) {
+    yearMonitor.html(year())
+    yearMonitorValue = year();
   }
+}
+
+function year() {
+  return Prims.precision(Globals.getGlobal(8), 0)
 }
 
 var tempMonitor = $('#temp-monitor');
@@ -92,9 +108,54 @@ function updateCloudsSlider() {
   Globals.setGlobal(3, clouds)
 }
 
+function startButton() {
+  uiState.running = true;
+  runModel();
+}
+
+function stopButton() {
+  uiState.running = false;
+  stopModel();
+}
+
+function analyzeButton() {
+  analyzeData();
+}
+
+function newRunButton() {
+  uiState.running = false;
+  // new run is like stop. This gets cleared if they press ok on the resulting dialog
+  clearData();
+}
+
+function updateEnabledWidgets() {
+  var changed = false;
+  for (var key in uiState) {
+    if (uiState.hasOwnProperty(key)) {
+      changed = changed || uiState[key] != lastUIState[key];
+    }
+  }
+  if (changed) {
+    $('#start-button').prop('disabled', uiState.running || uiState.atEnd);
+    $('#stop-button').prop('disabled', !uiState.running);
+    $('#new-run-button').prop('disabled', uiState.running || uiState.atBeginning);
+    $('#analyze-button').prop('disabled', uiState.running || uiState.atBeginning);
+    $('#CO2-slider').prop('disabled', uiState.running);
+    $('#Brightness-slider').prop('disabled', uiState.running);
+    $('#Albedo-slider').prop('disabled', uiState.running);
+    $('#Clouds-slider').prop('disabled', uiState.running);
+    for (var key in uiState) {
+      if (uiState.hasOwnProperty(key)) {
+        lastUIState[key] = uiState[key];
+      }
+    }
+  }
+}
+
 function initPage() {
   goForever();
 }
 
 startup();
 session.update(collectUpdates());
+updateEnabledWidgets();
