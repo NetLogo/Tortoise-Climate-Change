@@ -2,7 +2,7 @@ function doCommand(arg, callback) {
   if(window.parent && window.parent.DG) {
     return window.codapPhone.call(arg, callback);
   } else {
-    alert("Not in datagames, couldn't do '" + action + "'!");
+    alert("Not in datagames, couldn't do '" + arg.action + "'!");
   }
 }
 
