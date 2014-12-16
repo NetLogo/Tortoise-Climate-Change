@@ -1,9 +1,5 @@
 function doCommand(arg, callback) {
-  if(window.parent && window.parent.DG) {
-    return window.codapPhone.call(arg, callback);
-  } else {
-    alert("Not in datagames, couldn't do '" + arg.action + "'!");
-  }
+  window.codapPhone.call(arg, callback);
 }
 
 function updatePlots() {
@@ -32,49 +28,42 @@ function clearPlots() {
 }
 
 function record() {
-  if(window.parent && window.parent.DG) {
+  doCommand({
+    action: 'openCase',
+    args: {
+      collection: "Run",
+      values: [
+        Prims.precision(Globals.getGlobal(6), 1),
+        Prims.precision(Globals.getGlobal(11), 1),
+        Globals.getGlobal(2),
+        Globals.getGlobal(0),
+        Globals.getGlobal(1),
+        Globals.getGlobal(3)
+      ]
+    }
+  }, function(result) {
 
+    // Step 5. Create rows in the child table for each data point. Using 'createCases' we can
+    // do this inline, so we don't need to call openCase, closeCase for each row.
     doCommand({
-      action: 'openCase',
+      action: 'createCases',
       args: {
-        collection: "Run",
-        values: [
-          Prims.precision(Globals.getGlobal(6), 1),
-          Prims.precision(Globals.getGlobal(11), 1),
-          Globals.getGlobal(2),
-          Globals.getGlobal(0),
-          Globals.getGlobal(1),
-          Globals.getGlobal(3)
-        ]
+        collection: "Year",
+        values: yearlyData,
+        parent: result.caseID
       }
-    }, function(result) {
-
-      // Step 5. Create rows in the child table for each data point. Using 'createCases' we can
-      // do this inline, so we don't need to call openCase, closeCase for each row.
-      doCommand({
-        action: 'createCases',
-        args: {
-          collection: "Year",
-          values: yearlyData,
-          parent: result.caseID
-        }
-      });
-
-      // Step 6. Close the case.
-      doCommand({
-        action: 'closeCase',
-        args: {
-          collection: "Run",
-          caseID: result.caseID
-        }
-      });
-
     });
 
+    // Step 6. Close the case.
+    doCommand({
+      action: 'closeCase',
+      args: {
+        collection: "Run",
+        caseID: result.caseID
+      }
+    });
 
-  } else {
-    alert("Not in datagames, couldn't record!");
-  }
+  });
 }
 
 function logCODAPAction(message, args) {
@@ -120,53 +109,49 @@ clearPlots();
 
 graph.resize(261, 302);
 
-if(window.parent && window.parent.DG) {
-
-  var initFunc = function(iCmd, callback) {
-    var operation = iCmd && iCmd.operation;
-    var args      = iCmd && iCmd.args;
-    switch(operation) {
-      default: callback({ success: false });
-    }
+var initFunc = function(iCmd, callback) {
+  var operation = iCmd && iCmd.operation;
+  var args      = iCmd && iCmd.args;
+  switch(operation) {
+    default: callback({ success: false });
   }
-
-  window.codapPhone = new iframePhone.IframePhoneRpcEndpoint(initFunc, "codap-game", window.parent);
-
-  doCommand({
-    action: 'initGame',
-    args: {
-      name: "Climate Change",
-      dimensions: { width: 775, height: 450 },
-      collections: [
-        {
-          name: "Run",
-          attrs: [ { name: "Final Temp", type: "numeric", description: "BB", precision: 1 },
-                   { name: "Final Avg Temp", type: "numeric", description: "BB", precision: 1 },
-                   { name: "CO2 Level", type: "numeric", description: "AA", precision: 0, units:"ppm" },
-                   { name: "Sun Brightness", type: "numeric", description: "BB", precision: 0 },
-                   { name: "Albedo", type: "numeric", description: "BB", precision: 2 },
-                   { name: "Cloud Amount", type: "numeric", description: "BB", precision: 0 } ],
-          childAttrName: "yar"
-        },
-        {
-          name: "Year",
-          attrs: [ { name: "Year", type: "numeric", description: "XX", precision: 0, units:"ppm" },
-                   { name: "Yearly Temp", type: "numeric", description: "YY", precision: 1 },
-                   { name: "10-year Avg. Temp", type: "numeric", description: "ZZ", precision: 1 } ],
-          labels: {
-            singleCase: "year",
-            pluralCase: "years",
-            singleCaseWithArticle: "a year",
-            setOfCases: "run",
-            setOfCasesWithArticle: "a run"
-          },
-          defaults: {
-            xAttr: "run",
-            yAttr: "year"
-          }
-        }
-      ]
-    }
-  });
 }
 
+window.codapPhone = new iframePhone.IframePhoneRpcEndpoint(initFunc, "codap-game", window.parent);
+
+doCommand({
+  action: 'initGame',
+  args: {
+    name: "Climate Change",
+    dimensions: { width: 775, height: 450 },
+    collections: [
+      {
+        name: "Run",
+        attrs: [ { name: "Final Temp", type: "numeric", description: "BB", precision: 1 },
+                 { name: "Final Avg Temp", type: "numeric", description: "BB", precision: 1 },
+                 { name: "CO2 Level", type: "numeric", description: "AA", precision: 0, units:"ppm" },
+                 { name: "Sun Brightness", type: "numeric", description: "BB", precision: 0 },
+                 { name: "Albedo", type: "numeric", description: "BB", precision: 2 },
+                 { name: "Cloud Amount", type: "numeric", description: "BB", precision: 0 } ],
+        childAttrName: "yar"
+      },
+      {
+        name: "Year",
+        attrs: [ { name: "Year", type: "numeric", description: "XX", precision: 0, units:"ppm" },
+                 { name: "Yearly Temp", type: "numeric", description: "YY", precision: 1 },
+                 { name: "10-year Avg. Temp", type: "numeric", description: "ZZ", precision: 1 } ],
+        labels: {
+          singleCase: "year",
+          pluralCase: "years",
+          singleCaseWithArticle: "a year",
+          setOfCases: "run",
+          setOfCasesWithArticle: "a run"
+        },
+        defaults: {
+          xAttr: "run",
+          yAttr: "year"
+        }
+      }
+    ]
+  }
+});
