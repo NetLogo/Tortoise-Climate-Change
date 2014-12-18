@@ -125,10 +125,8 @@ function clearData() {
   logUserAction("User set up a new run.");
   if (!(Globals.getGlobal(18))) {
     stopModel();
-    if (!(Globals.getGlobal(22))) {
-      clearCODAPData();
-      clearPlots();
-      clear();
+    if (!(Globals.getGlobal(22)) || document.getElementById("leave-me-alone").checked === true) {
+      discardRun();
     } else {
       $("#dialog").show();
     }

@@ -62,17 +62,13 @@
         <div style="float:right;height:16px;width:16px;text-align:center;background-color:white;border:1px solid black;cursor:pointer;margin:2px;" onclick='$("#dialog").hide()'>X</div>
       </div>
       <div style="padding:8px">
-        <p>You're setting up a new run without saving your data.  Please indicate why:
-          <ul style="list-style-type:none;padding-left:0px">
-            <li><label><input type="radio" name="why" value="trying-things-out">Just trying things out.</label>
-            <li><label><input type="radio" name="why" value="experiment-worked-not-satisfied">Experiment worked, but not satisfied with the data.</label>
-            <li><label><input type="radio" name="why" value="something-went-wrong">Something went wrong during the experiment.</label>
-            <li><label><input type="radio" name="why" value="other">Other.</label>
-          </ul>
+        <p>
+          Pressing "New Run" without pressing "Analyze Data" will discard the current data.  Setup up a new run without saving the data first?<br><br>
+          <input type="checkbox" id="leave-me-alone">Don't show this message again
         </p>
         <hr>
-        <button style="float:right" onclick='$("#dialog").hide()'>Cancel</button>
-        <button style="float:right;margin-right:5px" onclick='$("#dialog").hide();recordExplanation();'>OK</button>
+        <button style="float:right;margin-right:5px" onclick='$("#dialog").hide();discardRun();'>Discard the data</button>
+        <button style="float:right" onclick='$("#dialog").hide()'>Go back</button>
         <div style="clear:both"></div>
       </div>
     </div>
